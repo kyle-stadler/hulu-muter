@@ -1,39 +1,35 @@
-function checkConsole() {
-    // Regular expressions to search for ad tags in the players console
-    const adRegex = /\bAd\b/i;
-    const continueRegex = /\bAdYour video will continue from this point after the break\b/i;
-    let muted = false;
-    let muteButton = undefined;
-  
-    // Using a MutationObserver to monitor changes in the console
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === 1) { // Check if it's an element node
-            const message = node.textContent.trim();
-  
-            // Check if the message contains regex
-            if (adRegex.test(message) || continueRegex.test(message)) {
-              // Log a message directly to the webpage's console
-              console.log("Extension: Ad detected");
+/**
+ * Periodically checks if Ads appeared on Hulu.
+ * If an ad is present and not muted, it mutes the ad. If no ad is present and it was muted, 
+ * it unmutes the ad.
+ */
+function checkIfAd() {
+  let adPresent = undefined;
+  let muted = undefined;
+  let muteButton = undefined;
 
-              muted = true;
-              muteButton = document.querySelector('[aria-label="MUTE"]');
-              muteButton.click();
-  
-              
-              // TODO: umute the audio
+  setInterval(function(){
+    if (document.querySelector('[aria-label="MUTE"]')) {
+      muteButton = document.querySelector('[aria-label="MUTE"]')
+      muted = false;
+    } else {
+      muted = true;
+      muteButton = document.querySelector('[aria-label="UNMUTE"]')
+    }
 
-              observer.disconnect();
-            }
-          }
-        });
-      });
-    });
-  
-    // Observe changes in the console (you may need to adjust the selector)
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-  
-  checkConsole();
-  
+    adPresent = document.getElementsByClassName("AdUnitView");
+
+    if (adPresent.length > 0){
+      if (!muted){
+        muteButton.click();
+        muted = true;
+      }
+    } else {
+      if (muted){
+        muteButton.click();
+      } 
+    }
+  } , 1000); // Checks for an Ad every second
+
+}
+checkIfAd();

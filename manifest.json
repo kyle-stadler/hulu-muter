@@ -1,15 +1,21 @@
 {
     "manifest_version": 2,
     "name": "Hulu Ad Muter",
-    "version": "1.0",
-    "permissions": ["activeTab"],
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
+    "description": "Mutes Ads on Hulu, unmutes when the Ad is complete (works with Live TV)",
+    "version": "1.0.0",
+    "author": "Kyle Stadler",
+    "icons": {
+      "128":"icon.png"
+    },
+    "permissions": [
+      "tabs",
+      "webNavigation",
+      "https://www.hulu.com/"
     ],
-    "browser_action": {
+    "background": {
+      "scripts": [
+        "extension.js"
+      ]
     }
   }
   
