@@ -27,6 +27,7 @@ The **Hulu Ad Muter** Chrome extension provides an automated solution for muting
 
 1. **Manual Installation:**
 
+   - Download the repository to your local machine
    - Load the extension in Chrome by navigating to `chrome://extensions/`.
    - Enable "Developer mode" and click "Load unpacked."
    - Select the extension directory containing the three files.
