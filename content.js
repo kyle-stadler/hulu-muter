@@ -2,6 +2,8 @@ function checkConsole() {
     // Regular expressions to search for ad tags in the players console
     const adRegex = /\bAd\b/i;
     const continueRegex = /\bAdYour video will continue from this point after the break\b/i;
+    let muted = false;
+    let muteButton = undefined;
   
     // Using a MutationObserver to monitor changes in the console
     const observer = new MutationObserver((mutations) => {
@@ -14,8 +16,13 @@ function checkConsole() {
             if (adRegex.test(message) || continueRegex.test(message)) {
               // Log a message directly to the webpage's console
               console.log("Extension: Ad detected");
+
+              muted = true;
+              muteButton = document.querySelector('[aria-label="MUTE"]');
+              muteButton.click();
   
-              // TODO: actually mute the audio
+              
+              // TODO: umute the audio
 
               observer.disconnect();
             }
